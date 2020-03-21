@@ -12,6 +12,9 @@ srv.use('/', express.static(__dirname + '/public'))
 
 io.on('connection', (socket) => {
     console.log('Connection made from ' + socket.id)
+    socket.on('msg_send', (data) => {
+        io.emit('msg_rcvd', data)
+    })
 })
 
 server.listen('4615', () => {
