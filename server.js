@@ -8,6 +8,7 @@ const server = http.createServer(srv)
 
 const io = socket(server)
 const users = {}
+const names = []
 
 srv.use('/', express.static(__dirname + '/public'))
 
@@ -18,13 +19,14 @@ io.on('connection', (socket) => {
             if(users[data.username] == data.password){
                 socket.join(data.username)
                 socket.emit('logged_in')
-                // io.emit('add_user', {
-                //     name: data.username
-                // })
+                io.emit('add_user', {
+                    names: names
+                })
             }else{
                 socket.emit('login_failed')
             }
         }else{
+            names.push(data.username)
             users[data.username] = data.password
             socket.join(data.username)
             io.to(data.username).emit('msg_rcvd', {
@@ -34,7 +36,7 @@ io.on('connection', (socket) => {
             })
             socket.emit('logged_in')
             io.emit('add_user', {
-                name: data.username
+                names: names
             })
         }
     })

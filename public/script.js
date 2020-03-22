@@ -7,7 +7,11 @@ $(() => {
     })
 
     socket.on('add_user', (data) => {
-        $('#inpToUser').append(`<option value="${data.name}">${data.name}</option>`)
+        $('#inpToUser').empty()
+        $('#inpToUser').append(`<option value="" selected>Send to (default everyone)</option>`)
+        for(let name of data.names){
+            $('#inpToUser').append(`<option value="${name}">${name}</option>`)
+        }
     })
 
     let username = ''
