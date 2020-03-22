@@ -15,9 +15,16 @@ io.on('connection', (socket) => {
     socket.on('login', (data) => {
         socket.join(data.username)
         socket.emit('logged_in')
+        io.emit('add_user', {
+            name: data.username
+        })
     })
     socket.on('msg_send', (data) => {
-        io.emit('msg_rcvd', data)
+        if(data.to){
+            io.to(data.to).emit('msg_rcvd', data)
+        }else{
+            io.emit('msg_rcvd', data)
+        }
     })
 })
 

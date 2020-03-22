@@ -34,7 +34,9 @@
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="addUsername">@</span>
                 </div>
-                <input type="text" class="form-control col-3" placeholder="Send to (default everyone)" aria-label="Username" aria-describedby="addon-wrapping" id="inpToUser">
+                <select class="custom-select col-3" id="inpToUser">
+                    <option value="" selected>Send to (default everyone)</option>
+                </select>
                 <input type="text" class="form-control col" placeholder="Message" aria-label="Username" aria-describedby="addon-wrapping" id="inpMsg">
                 <div class="input-group-append">
                     <button class="btn btn-outline-secondary" type="button" id="btnSend">Send</button>

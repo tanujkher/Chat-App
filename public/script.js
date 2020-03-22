@@ -1,6 +1,11 @@
 let socket = io()
 
 $(() => {
+    socket.on('add_user', (data) => {
+        $('#inpToUser').append(`<option value="${data.name}">${data.name}</option>`)
+    })
+
+    let username = ''
     let btnStart = $('#btnStart')
     let inpUsername = $('#inpUsername')
     let addUsername = $('#addUsername')
@@ -12,6 +17,7 @@ $(() => {
             username: inpUsername.val()
         })
         addUsername.text('@ ' + inpUsername.val())
+        username = inpUsername.val()
     }
 
     btnStart.click(() => {
@@ -33,11 +39,13 @@ $(() => {
     let ulMsgList = $('#ulMsgList')
     let inpMsg = $('#inpMsg')
 
+    // Send message feature
+
     function send() {
         if(inpMsg.val() == ''){
             return
         }
-        socket.emit('msg_send', { msg: inpMsg.val(), user: socket.id, to: $('#inpToUser').val() })
+        socket.emit('msg_send', { msg: inpMsg.val(), user: socket.id, to: $('#inpToUser').val(), from: username })
         inpMsg.val('')
         $('#inpToUser').val('')
     }
@@ -63,7 +71,7 @@ $(() => {
         }else{
             ulMsgList.append(`
             <li class="list-group-item d-flex justify-content-between align-items-center">
-                <span class="badge badge-primary badge-pill">${data.user}</span>
+                <span class="badge badge-primary badge-pill">${data.from}</span>
                 ${data.msg}
             </li>
         `)
