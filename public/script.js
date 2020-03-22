@@ -17,6 +17,7 @@ $(() => {
     let username = ''
     let btnStart = $('#btnStart')
     let inpUsername = $('#inpUsername')
+    let inpPassword = $('#inpPassword')
     let addUsername = $('#addUsername')
 
     // Login feature
@@ -36,6 +37,12 @@ $(() => {
     })
 
     inpUsername.keyup((event) => {
+        if(event.keyCode == '13'){
+            login()
+        }
+    })
+
+    inpPassword.keyup((event) => {
         if(event.keyCode == '13'){
             login()
         }

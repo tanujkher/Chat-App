@@ -30,7 +30,7 @@ io.on('connection', (socket) => {
             users[data.username] = data.password
             socket.join(data.username)
             io.to(data.username).emit('msg_rcvd', {
-                msg: 'Hi new user. Hope You enjoy your chat experience with us',
+                msg: 'Hi new user. Hope you enjoy your chat experience with us',
                 user:'abcID',
                 from: 'Team Chat App'
             })
