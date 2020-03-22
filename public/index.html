@@ -19,12 +19,20 @@
                     <span class="input-group-text" id="addon-wrapping">@</span>
                 </div>
                 <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="addon-wrapping" id="inpUsername">
+                <input type="password" class="form-control" placeholder="Password" aria-label="Username" aria-describedby="addon-wrapping" id="inpPassword">
                 <div class="input-group-append">
                     <button class="btn btn-outline-secondary" type="button" id="btnStart">Start</button>
                 </div>
             </div>
             <div class="col"></div>
         </div>
+    </div>
+    <div class="row p-3" style="display: none;" id="wrongPass">
+        <div class="col"></div>
+        <div class="alert alert-danger col-8" role="alert">
+            Wrong Password
+        </div>
+        <div class="col"></div>
     </div>
     <div id="chatBox" style="display: none;">
         <h1 class="text-center p-2">Socket.IO sample</h1>

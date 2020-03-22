@@ -1,6 +1,11 @@
 let socket = io()
 
 $(() => {
+
+    socket.on('login_failed', () => {
+        $('#wrongPass').show()
+    })
+
     socket.on('add_user', (data) => {
         $('#inpToUser').append(`<option value="${data.name}">${data.name}</option>`)
     })
@@ -13,8 +18,10 @@ $(() => {
     // Login feature
 
     function login() {
+        $('#wrongPass').hide()
         socket.emit('login', {
-            username: inpUsername.val()
+            username: inpUsername.val(),
+            password: $('#inpPassword').val()
         })
         addUsername.text('@ ' + inpUsername.val())
         username = inpUsername.val()

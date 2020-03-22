@@ -7,17 +7,36 @@ const socket = require('socket.io')
 const server = http.createServer(srv)
 
 const io = socket(server)
+const users = {}
 
 srv.use('/', express.static(__dirname + '/public'))
 
 io.on('connection', (socket) => {
     console.log('Connection made from ' + socket.id)
     socket.on('login', (data) => {
-        socket.join(data.username)
-        socket.emit('logged_in')
-        io.emit('add_user', {
-            name: data.username
-        })
+        if(users[data.username]){
+            if(users[data.username] == data.password){
+                socket.join(data.username)
+                socket.emit('logged_in')
+                // io.emit('add_user', {
+                //     name: data.username
+                // })
+            }else{
+                socket.emit('login_failed')
+            }
+        }else{
+            users[data.username] = data.password
+            socket.join(data.username)
+            io.to(data.username).emit('msg_rcvd', {
+                msg: 'Hi new user. Hope You enjoy your chat experience with us',
+                user:'abcID',
+                from: 'Team Chat App'
+            })
+            socket.emit('logged_in')
+            io.emit('add_user', {
+                name: data.username
+            })
+        }
     })
     socket.on('msg_send', (data) => {
         if(data.to){
@@ -29,5 +48,5 @@ io.on('connection', (socket) => {
 })
 
 server.listen('4615', () => {
-    console.log('Serever started at http://localhost:4615')
+    console.log('Server started at http://localhost:4615')
 })
