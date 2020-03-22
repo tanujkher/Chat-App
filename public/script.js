@@ -1,13 +1,45 @@
 let socket = io()
 
 $(() => {
+    let btnStart = $('#btnStart')
+    let inpUsername = $('#inpUsername')
+    let addUsername = $('#addUsername')
+
+    // Login feature
+
+    function login() {
+        socket.emit('login', {
+            username: inpUsername.val()
+        })
+        addUsername.text('@ ' + inpUsername.val())
+    }
+
+    btnStart.click(() => {
+        login()
+    })
+
+    inpUsername.keyup((event) => {
+        if(event.keyCode == '13'){
+            login()
+        }
+    })
+
+    socket.on('logged_in', () => {
+        $('#loginBox').hide()
+        $('#chatBox').show()
+    })
+
     let btnSend = $('#btnSend')
     let ulMsgList = $('#ulMsgList')
     let inpMsg = $('#inpMsg')
 
     function send() {
-        socket.emit('msg_send', { msg: inpMsg.val(), user: socket.id })
+        if(inpMsg.val() == ''){
+            return
+        }
+        socket.emit('msg_send', { msg: inpMsg.val(), user: socket.id, to: $('#inpToUser').val() })
         inpMsg.val('')
+        $('#inpToUser').val('')
     }
 
     inpMsg.keyup((event) => {

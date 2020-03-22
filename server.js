@@ -12,6 +12,10 @@ srv.use('/', express.static(__dirname + '/public'))
 
 io.on('connection', (socket) => {
     console.log('Connection made from ' + socket.id)
+    socket.on('login', (data) => {
+        socket.join(data.username)
+        socket.emit('logged_in')
+    })
     socket.on('msg_send', (data) => {
         io.emit('msg_rcvd', data)
     })
