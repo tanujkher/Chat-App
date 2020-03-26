@@ -4,6 +4,8 @@ const srv = express()
 
 const socket = require('socket.io')
 
+const SERVER_PORT = process.env.PORT || 4615
+
 const server = http.createServer(srv)
 
 const io = socket(server)
@@ -49,6 +51,6 @@ io.on('connection', (socket) => {
     })
 })
 
-server.listen('4615', () => {
-    console.log('Server started at http://localhost:4615')
+server.listen(SERVER_PORT, () => {
+    console.log(`Server started at http://localhost:${SERVER_PORT}`)
 })
